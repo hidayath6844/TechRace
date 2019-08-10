@@ -1,0 +1,9 @@
+/.project
+/bin/
+/.settings/
+/build/
+/.classpath
+/.gradle/
+/.idea/
+/demo-h2-database/out/
+/demo-h2-database/out/
