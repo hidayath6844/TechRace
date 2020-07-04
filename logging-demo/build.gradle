@@ -2,17 +2,28 @@ plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id "com.jfrog.artifactory" version "4.16.0"
+	id 'maven-publish'
 }
+
+
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.techrace.log'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
+	implementation 'org.jfrog.buildinfo:build-info-extractor-gradle:4.16.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	
@@ -25,3 +36,43 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-release-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+            
+        }
+        defaults {
+            publications ('mavenJava')
+            ////List of Gradle Configurations (names or objects) from which to collect the list of artifacts to be deployed to Artifactory. 
+            publishConfigs('archives', 'published')               
+        }
+        publishBuildInfo = true
+        publishArtifacts = true
+        publishPom = true
+    }
+    resolve {
+        repository {
+            repoKey = 'gradle-release'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+            
+        }
+    }
+    
+}
+
+//artifactoryPublish { 
+   // contextUrl = "${artifactory_contextUrl}"
+    //publications ('mavenJava')
+//}
+
+
