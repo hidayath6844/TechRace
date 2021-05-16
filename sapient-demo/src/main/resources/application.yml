@@ -1,0 +1,9 @@
+server:
+  port: 9030
+  
+spring:
+  datasource:
+    url: h2://localhost:sapient_demo
+    username: root
+    password: root
+    

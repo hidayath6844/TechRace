@@ -1,0 +1,42 @@
+dependencies {
+	implementation 'org.jfrog.buildinfo:build-info-extractor-gradle:4.16.0'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+test {
+	useJUnitPlatform()
+}
+
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+    publish {
+        repository {
+            repoKey = 'gradle-release-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+            
+        }
+        defaults {
+            publications ('mavenJava')
+            ////List of Gradle Configurations (names or objects) from which to collect the list of artifacts to be deployed to Artifactory. 
+            publishConfigs('archives', 'published')               
+        }
+        publishBuildInfo = true
+        publishArtifacts = true
+        publishPom = true
+    }
+    resolve {
+        repository {
+            repoKey = 'gradle-release'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+            
+        }
+    }
+    
+}

@@ -31,10 +31,6 @@ public class EmployeeServiceImpl implements EmployeeService{
 		List<Employee> employeeList = new ArrayList<>();
 		entityList.stream().forEach(e ->{
 			Employee employee = new Employee();
-//			employee.setFirstName(e.getFirstName());
-//			employee.setId(e.getId());
-//			employee.setLastName(e.getLastName());
-//			employee.setRole(e.getRole());
 			BeanUtils.copyProperties(e, employee);
 			employeeList.add(employee);
 		});

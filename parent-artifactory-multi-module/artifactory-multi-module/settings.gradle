@@ -1,0 +1,2 @@
+rootProject.name = 'artifactory-multi-module'
+include 'artifactory-multi-module-messaging'

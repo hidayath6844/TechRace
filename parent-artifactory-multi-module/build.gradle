@@ -1,0 +1,45 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+	id "com.jfrog.artifactory" version "4.16.0"
+	id 'maven-publish'
+}
+
+subprojects {
+
+    group = 'com.artifactory.multi.module'
+	version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java-library'
+	apply plugin: 'groovy'
+	apply plugin: 'maven'
+	apply plugin: 'maven-publish'
+	apply plugin: 'com.jfrog.artifactory'
+	apply plugin: 'application'
+	
+
+    repositories {
+    	mavenCentral()
+        jcenter()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.2.6.RELEASE")
+        }
+    }
+
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    
+    bootJar {
+	enabled = true
+}
+
+}
+
